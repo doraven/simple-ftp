@@ -2,6 +2,7 @@
 *.conf
 *.ini
 *.json
+Log.txt
 
 # 存储目录
 ftp-root/*
