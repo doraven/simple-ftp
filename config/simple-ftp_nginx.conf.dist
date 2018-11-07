@@ -1,8 +1,8 @@
-# ln -s /abs-path/this-file /etc/nginx/conf.d/
+# sudo ln -s /this/file /etc/nginx/conf.d/
 # nginx 端后台程序设置
 
 server {
-    listen 3990;
+    listen {{PORT}};
     server_name localhost;
 
     default_type 'text/html';
@@ -18,12 +18,17 @@ server {
 
     location / {
         default_type "application/octet-stream";
-        root /root/of/ftp/directory;
+        root {{APP_ROOT}}/ftp-root;
         fancyindex_header "/.header.html";
         fancyindex_footer "/.footer.html";
         fancyindex_ignore ".footer.html" ".header.html";
     }
     sendfile on;
     gzip on;
+
+    location = /query {
+        include uwsgi_params;
+        uwsgi_pass 127.0.0.1:{{SOCK_PORT}};
+    }
 
 }
