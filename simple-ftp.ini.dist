@@ -1,0 +1,12 @@
+[simple-ftp]
+# 设置文件，通过python configparser将dist文件变为可用文件
+# 不要在设置行后注释，必须单行注释
+
+#对外端口
+PORT = 8888
+
+#与uwsgi的内部通信端口
+SOCK_PORT = 8887
+
+ #本地simple-ftp的根目录（不是ftp-root）
+APP_ROOT = ~/simple-ftp
