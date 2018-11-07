@@ -1,7 +1,11 @@
-# local config files
+# 本地配置文件，需要同步的配置文件后缀均加上dist
 *.conf
-*.uwsgi
-.service
+*.ini
+
+# 存储目录
+ftp-root/*
+!.footer.html
+!.header.html
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
