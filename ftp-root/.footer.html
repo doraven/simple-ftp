@@ -1,36 +1,24 @@
 <div id="footer" class="container-fluid p-1">
     <div class="d-flex py-2" id="ButtonBar">
-     <div class="pr-4"><button class="btn-sm" id="Refresh">刷新</button></div>
-    <div class="pr-2"><button class="btn-sm btn-primary" id="Upload">上传</button></div>
-    <div class="pr-2"><button class="btn-sm btn-success" id="Newfolder">新建文件夹</button></div>
-   <div class="pr-2"><button class="btn-sm btn-primary" id="Rename">重命名</button></div>
-    <div class="pl-4"><button class="btn-sm btn-danger" id="Delete">删除</button></div>
+        <div class="pr-4"><button class="btn-sm" id="Refresh">刷新</button></div>
+        <div class="pr-2"><button class="btn-sm btn-primary" id="Upload">上传</button></div>
+        <div class="pr-2"><button class="btn-sm btn-success" id="Newfolder">新建文件夹</button></div>
+        <div class="pr-2"><button class="btn-sm btn-primary" id="Rename">重命名</button></div>
+        <div class="pl-4"><button class="btn-sm btn-danger" id="Delete">删除</button></div>
     </div>
 
-<form action="" method="post" hidden>
-    <div class="d-flex-row input-group p-2" id="CheckAuthority">
-        <div class="input-group-prepend p">
-            <span class="input-group-text">密码</span>
+    <form action="" method="post" hidden>
+        <div class="d-flex-row input-group p-2" id="CheckAuthority" hidden>
+            <div class="input-group-prepend p">
+                <span class="input-group-text">密码</span>
+            </div>
+            <div><input type="password" class="form-control" name="password"></div>
         </div>
-        <div><input type="password" class="form-control" name="password"></div>
-    </div>
 
-    <div class="d-flex-row input-group p-2" id="UploadForm">
-        <div class="input-group-prepend">
-            <label for="InputUpload">
-                <span class="input-group-text">选择文件</span>
-            </label>
-        </div>
-        <div class="col-sm-4 custom-file">
-            <input type="file" class="custom-file-input" id="InputUpload" name="file">
-            <label class="custom-file-label" for="InputUpload"></label>
-        </div>
-    </div>
-
-        <div class="d-flex-row input-group p-2" id="UploadForm">
+        <div class="d-flex-row input-group p-2" id="UploadForm" hidden>
             <div class="input-group-prepend">
                 <label for="InputUpload">
-                    <span class="input-group-text">新建文件夹</span>
+                    <span class="input-group-text">选择文件</span>
                 </label>
             </div>
             <div class="col-sm-4 custom-file">
@@ -39,11 +27,23 @@
             </div>
         </div>
 
-    <div class="py-2">
-        <button type="submit" class="btn btn-large btn-primary">提交</button>
-    </div>
+        <div class="d-flex-row input-group p-2" id="NewFolderForm" hidden>
+            <div class="input-group-prepend">
+                <label for="InputUpload">
+                    <span class="input-group-text">新建文件夹</span>
+                </label>
+            </div>
+            <div class="col-sm-4 custom-file">
+                <input type="file" class="custom-file-input" id="" name="file">
+                <label class="custom-file-label" for=""></label>
+            </div>
+        </div>
 
-</form>
+        <div class="py-2">
+            <button type="submit" class="btn btn-large btn-primary">提交</button>
+        </div>
+
+    </form>
 
 </div>
 
@@ -53,11 +53,11 @@
 
         $("button").click(function(){
             if ($(this).attr("id") == "Refresh"){window.location.reload();return;}
-
+            $("form").removeAttr("hidden");
 
             switch ($(this).attr("id")){
                 case "Upload":
-
+                $("#UploadForm").removeAttr("hidden");
 
                 case "Newfolder":
 
