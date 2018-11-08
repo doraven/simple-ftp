@@ -21,3 +21,7 @@ python3 $basepath/config/DeployConfig.py
 sudo ln -s  -f $basepath/config/simple-ftp_uwsgi.ini /etc/uwsgi/apps-available/
 
 sudo ln -s -f $basepath/config/simple-ftp_nginx.conf /etc/nginx/conf.d/
+
+sudo nginx -s reload
+
+echo "安装完毕，使用manage.sh脚本编辑用户和用户密码"

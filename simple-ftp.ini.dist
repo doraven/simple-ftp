@@ -11,7 +11,7 @@ SERVER_NAME = localhost
 # 与uwsgi的内部通信端口
 SOCK_PORT = 2018
 
- # 本地simple-ftp的根目录（不是ftp-root），最后不要加斜杠
+# 本地simple-ftp的根目录（不是ftp-root），最后不要加斜杠
 APP_ROOT = ---/simple-ftp
 
 [flask]

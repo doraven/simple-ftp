@@ -114,7 +114,9 @@ $(document).ready(function(){
 
     //  各POST的提交按钮
     $("button.post").click(function(){
+
         switch ($(this).attr("id")){
+
             case "BtnPassword":
                 $.post("/query", {
                     "post" : "login",
@@ -129,6 +131,7 @@ $(document).ready(function(){
                         $("#NotLogged").removeAttr("hidden");
                     }
                 });
+                break;
 
             case "BtnNewFolder":
                 $.post("/query", {
@@ -137,10 +140,11 @@ $(document).ready(function(){
                     "path" : path,
                     "newfoldername" : $("#NewFolderName").val(),
                 } , function (result, status){
-
+                    if(result == "1"){
+                        window.location.reload();return;
+                    }
                 });
-
-            case "BtnRename":
+                break;
 
             case "BtnDelete":
                 $.post("/query", {
@@ -155,8 +159,9 @@ $(document).ready(function(){
                         alert("删除失败，联系管理员");return;
                     }
                 });
+                break;
 
-        }
+        }//end of switch
     });
 
     var deletefiles = [];
