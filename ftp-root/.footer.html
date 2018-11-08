@@ -1,0 +1,183 @@
+<div id="footer" class="container-fluid">
+    <div class="d-flex pb-2" id="ButtonBar">
+        <div class="pr-4"><button class="btn shown-toggle" id="Refresh">刷新</button></div>
+        <div class="pr-2"><button class="btn btn-primary shown-toggle" id="Upload" data-toggle="collapse" data-target="#UploadForm">上传</button></div>
+        <div class="pr-2"><button class="btn btn-secondary shown-toggle" id="Newfolder" data-toggle="collapse" data-target="#NewFolderForm">新建文件夹</button></div>
+        <div class="pr-2"><button hidden class="btn btn-primary shown-toggle" id="Rename" data-toggle="collapse" data-target="#RenameForm">重命名</button></div>
+        <div class="pr-2"><button hidden class="btn btn-primary shown-toggle" id="Move" data-toggle="collapse" data-target="#MoveForm">移动</button></div>
+        <div class="pl-4"><button class="btn btn-danger shown-toggle" id="Delete" data-toggle="collapse" data-target="#DeleteForm">删除</button></div>
+    </div>
+
+    <div class="d-flex-row input-group p-3" id="CheckAuthority" hidden>
+        <div class="input-group-prepend">
+            <span class="input-group-text">请认证</span>
+        </div>
+        <div><input id="Password" type="password" class="form-control" name="password"></div>
+        <div class="input-group-append">
+            <button id="BtnPassword" class="btn btn-primary post">认证</button>
+        </div>
+    </div>
+
+    <div class="alert alert-success recognize" id="Logged" hidden>
+        已认证为<strong></strong>
+    </div>
+    <div class="alert alert-danger recognize" id="NotLogged" hidden>
+        <strong></strong>认证失败
+    </div>
+
+    <div id="MyForms">
+        <div id="UploadForm" class="collapse myform" data-parent="#MyForms" hidden>
+            <input id="input-fa" name="input-fa[]" type="file"  class="file-loading" multiple>
+        </div>
+
+        <div class="d-flex-row input-group p-2 collapse myform" id="NewFolderForm" data-parent="#MyForms" hidden>
+            <div class="input-group-prepend">
+                    <span class="input-group-text">新建文件夹</span>
+            </div>
+            <div>
+                <input type="text" class="form-control" placeholder="文件夹名" id="NewFolderName">
+            </div>
+            <div class="input-group-append">
+                <button id="BtnNewFolder" class="btn btn-primary post">新建</button>
+            </div>
+        </div>
+
+        <div id="DeleteForm" class="collapse myform" data-parent="#MyForms" hidden>
+            <div class="d-flex flex-wrap" id="ToDelete"></div>
+            <div class="d-flex">
+                <button id="BtnDelete" class="btn btn-danger post" >确认删除</button>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<link href="https://cdn.bootcss.com/bootstrap-fileinput/4.5.1/css/fileinput.min.css" rel="stylesheet">
+<script src="https://cdn.bootcss.com/bootstrap-fileinput/4.5.1/js/fileinput.min.js"></script>
+<link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<script src="https://cdn.bootcss.com/bootstrap-fileinput/4.5.1/themes/fa/theme.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap-fileinput/4.5.1/js/locales/zh.min.js"></script>
+
+<script>
+$(document).ready(function(){
+    $("table").addClass("table table-striped");
+    var path = decodeURI(window.location.pathname);
+    var user = decodeURI(window.location.pathname.split("/")[1]);
+    var login = 0;
+    var operation="";
+
+    // 更改用户名
+    $(".recognize strong").html(user);
+
+    // 渲染input框架
+    $("#input-fa").fileinput({
+        language:"zh",
+        theme: "fa",
+        uploadUrl: "/query",
+        uploadExtraData:{
+            "post" : "upload",
+            "path": path,
+            "user" : user
+        },
+    });
+
+    //判断是否已登陆
+    $.get("/query", { "user" : user , "get" : "checkauthority"} , function (result) {
+        if (result == "1"){
+            login=1;
+            $("#Logged, .myform").removeAttr("hidden");
+        }
+    });
+
+    //点击折叠按钮，显示其折叠区
+    $("button.shown-toggle").click(function(){
+        if ($(this).attr("id") == "Refresh"){window.location.reload();return;}
+        if(!login){$("#CheckAuthority").removeAttr("hidden");return;}
+        switch ($(this).attr("id")){
+            case "Delete":
+                $("a[title]").each(function(){
+                    $(this).addClass("text-danger delete-file");
+                    $(this).attr("href", "#");
+                });
+                operation="delete";
+
+            case "Rename":
+        }
+    });
+
+    //  各POST的提交按钮
+    $("button.post").click(function(){
+        switch ($(this).attr("id")){
+            case "BtnPassword":
+                $.post("/query", {
+                    "post" : "login",
+                    "user" : user,
+                    "password" : $("#Password").val(),
+                } , function (result, status){
+                    if(result == "1"){
+                        login = 1;
+                        $("#Logged, .myform").removeAttr("hidden");
+                        $("#CheckAuthority, #NotLogged").attr("hidden", "");
+                    }else{
+                        $("#NotLogged").removeAttr("hidden");
+                    }
+                });
+
+            case "BtnNewFolder":
+                $.post("/query", {
+                    "post" : "newfolder",
+                    "user" : user,
+                    "path" : path,
+                    "newfoldername" : $("#NewFolderName").val(),
+                } , function (result, status){
+
+                });
+
+            case "BtnRename":
+
+            case "BtnDelete":
+                $.post("/query", {
+                    "post" : "delete",
+                    "user" : user,
+                    "path" : path,
+                    "deletefiles" : JSON.stringify(deletefiles),
+                } , function (result, status){
+                    if(result == "1"){
+                        window.location.reload();return;
+                    }else{
+                        alert("删除失败，联系管理员");return;
+                    }
+                });
+
+        }
+    });
+
+    var deletefiles = [];
+    // 删除文件POST
+    $("body").on("click", ".delete-file", function(){
+        console.log("delete" + $(this).html());
+        // 如果已有文件则删除
+        index = $.inArray($(this).html(), deletefiles)
+        if( index > -1 ){
+            $(`#ToDelete [filename="${$(this).html()}"]`).remove();
+            deletefiles.splice(index, 1);
+        }else{
+            deletefiles.push($(this).html());
+            $("#ToDelete").append(`<div class="delete-file text-danger p-1 m-1 border border-danger"
+                            filename="${$(this).html()}">${$(this).html()}</div>`);
+        }
+    });
+
+        console.log("End");
+
+});
+</script>
+
+</body></html>
