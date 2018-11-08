@@ -10,6 +10,11 @@ if [ ! -d "venv" ]; then
     ./venv/bin/pip install -r requirements.txt
 fi
 
+if [ ! -f "simple-ftp.ini" ];then
+  cp simple-ftp.ini.dist simple-ftp.ini
+  echo "请编辑好simple-ftp.ini文件后重新deploy"
+fi
+
 python3 $basepath/config/DeployConfig.py
 
 sudo ln -s  -f $basepath/config/simple-ftp_uwsgi.ini /etc/uwsgi/apps-available/
