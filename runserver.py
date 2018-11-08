@@ -26,7 +26,7 @@ def query():
 
     if request.method == "POST":
         form=request.form
-        if "post" not in form:
+        if "post" not in form or not form["user"]:
             return "0"
         # 登陆
         elif form["post"] == "login":
