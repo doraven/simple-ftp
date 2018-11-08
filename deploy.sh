@@ -13,6 +13,7 @@ fi
 if [ ! -f "simple-ftp.ini" ];then
   cp simple-ftp.ini.dist simple-ftp.ini
   echo "请编辑好simple-ftp.ini文件后重新deploy"
+  exit
 fi
 
 python3 $basepath/config/DeployConfig.py
