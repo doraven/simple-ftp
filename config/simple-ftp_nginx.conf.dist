@@ -3,11 +3,11 @@
 
 server {
     listen {{PORT}};
-    server_name localhost;
+    server_name {{SERVER_NAME}};
 
     default_type 'text/html';
     charset utf-8;
-    client_max_body_size 75M;
+    client_max_body_size 235M;
 
     autoindex_exact_size off;
     autoindex_localtime on;

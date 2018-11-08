@@ -3,9 +3,11 @@
 ; uwsgi方便emperor调动的文件
 
 socket = :{{SOCK_PORT}}
-; stats = :4001 ; 如果安装了uwsgitop，则可以设置该端口
-; 设置主目录
+; stats = :4001
+; 如果安装了uwsgitop，则可以设置该端口
+
 set-placeholder = basedir={{APP_ROOT}}
+; 设置主目录
 
 gid = 1000
 uid = 1000
@@ -19,3 +21,6 @@ threads = 2
 
 harakiri = 30
 ; 时常过30s后就断开连接
+
+py-autoreload = 1
+; 更改py文件后uwsgi就会重启该demo

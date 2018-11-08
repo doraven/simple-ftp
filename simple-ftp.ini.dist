@@ -2,11 +2,18 @@
 # 设置文件，通过python configparser将dist文件变为可用文件
 # 不要在设置行后注释，必须单行注释
 
-#对外端口
-PORT = 8888
+# 对外端口，服务器使用80端口
+PORT = 2019
 
-#与uwsgi的内部通信端口
-SOCK_PORT = 8887
+# 对外的域名，服务器可以设置，本地使用localhost
+SERVER_NAME = localhost
 
- #本地simple-ftp的根目录（不是ftp-root）
-APP_ROOT = ~/simple-ftp
+# 与uwsgi的内部通信端口
+SOCK_PORT = 2018
+
+ # 本地simple-ftp的根目录（不是ftp-root），最后不要加斜杠
+APP_ROOT = ---/simple-ftp
+
+[flask]
+# 设置simple-ftp的secret-key，随机敲即可
+SECRET_KEY = ""
