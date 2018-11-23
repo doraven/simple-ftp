@@ -74,6 +74,7 @@ $(document).ready(function(){
 <script>
 $(document).ready(function(){
     var path = decodeURI(window.location.pathname);
+    console.log(path);
     var user = decodeURI(window.location.pathname.split("/")[1]);
     var login = 0;
     var operation="";
@@ -172,16 +173,16 @@ $(document).ready(function(){
     var deletefiles = [];
     // 删除文件POST
     $("body").on("click", ".delete-file", function(){
-        console.log("delete" + $(this).html());
+        console.log("delete " + $(this).attr("title"));
         // 如果已有文件则删除
-        index = $.inArray($(this).html(), deletefiles)
+        index = $.inArray($(this).attr("title"), deletefiles)
         if( index > -1 ){
-            $(`#ToDelete [filename="${$(this).html()}"]`).remove();
+            $(`#ToDelete [filename="${$(this).attr("title")}"]`).remove();
             deletefiles.splice(index, 1);
         }else{
-            deletefiles.push($(this).html());
+            deletefiles.push($(this).attr("title"));
             $("#ToDelete").append(`<div class="delete-file text-danger p-1 m-1 border border-danger"
-                            filename="${$(this).html()}">${$(this).html()}</div>`);
+                            filename="${$(this).attr("title")}">${$(this).attr("title")}</div>`);
         }
     });
 

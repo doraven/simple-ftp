@@ -36,9 +36,11 @@ def query():
                 return "1"
             else:
                 return "0"
+
             # 判断登陆
         elif form["user"] not in session:
             return "0"
+
         # 上传
         elif form["post"] == "upload":
             files = request.files
@@ -46,7 +48,8 @@ def query():
                 file_path = "ftp-root" + form["path"] + files[i].filename
                 files[i].save(file_path)
             return "1"
-            # 下载
+
+            # 删除
         elif form["post"] == "delete":
             for f in json.loads(form["deletefiles"]):
                 fullpath = "ftp-root" + form["path"] +f
@@ -55,6 +58,8 @@ def query():
                 else:
                     shutil.rmtree(fullpath )
             return "1"
+
+            # 新文件夹
         elif form["post"] == "newfolder":
             fullpath = "ftp-root" + form["path"] + form["newfoldername"]
             os.mkdir(fullpath)
